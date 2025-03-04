@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Timetable</title>
+  </head>
+  <body>
+    <h1>Weekly Timetable</h1>
+
+    {% if is_admin %}
+    <form method="POST">
+      {% endif %} {% for day, sessions in timetable.items() %}
+      <h2>{{ day }}</h2>
+      <table border="1">
+        <tr>
+          <th>Time</th>
+          <th>Subject</th>
+          <th>Venue</th>
+          <th>Faculty</th>
+        </tr>
+        {% for session in sessions %}
+        <tr>
+          <td>{{ session.time }}</td>
+          {% if is_admin %}
+          <td>
+            <input
+              type="text"
+              name="{{ day }}_{{ session.time }}_subject"
+              value="{{ session.subject }}"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="{{ day }}_{{ session.time }}_venue"
+              value="{{ session.venue }}"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="{{ day }}_{{ session.time }}_faculty"
+              value="{{ session.faculty }}"
+            />
+          </td>
+          {% else %}
+          <td>{{ session.subject }}</td>
+          <td>{{ session.venue }}</td>
+          <td>{{ session.faculty }}</td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+      {% endfor %} {% if is_admin %}
+      <button type="submit">Save Changes</button>
+    </form>
+    {% endif %}
+  </body>
+</html>
